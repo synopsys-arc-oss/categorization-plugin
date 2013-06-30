@@ -23,14 +23,10 @@
  */
 package com.synopsys.arc.jenkinsci.plugins.categorization.types.builtin;
 
-import com.synopsys.arc.jenkinsci.plugins.categorization.types.CategoryTypeExtension;
-import hudson.Extension;
-
 /**
- * Boolean category.
+ * Choice category.
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
-@Extension
-public class BooleanCategory extends CategoryTypeExtension {
+public class ChoiceCategory {
     
 }

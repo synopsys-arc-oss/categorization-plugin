@@ -27,7 +27,7 @@ import com.synopsys.arc.jenkinsci.plugins.categorization.types.CategoryTypeExten
 import hudson.Extension;
 
 /**
- *
+ * String category.
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
 @Extension

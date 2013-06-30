@@ -24,7 +24,10 @@
 package com.synopsys.arc.jenkinsci.plugins.categorization;
 
 /**
- *
+ * Categorization plugin.
+ * Plugin provides setup of categories for slaves and nodes.
+ * Features:
+ * TODO: Scheduling according to category (promote to labels?)
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
 public class CategorizationPlugin {

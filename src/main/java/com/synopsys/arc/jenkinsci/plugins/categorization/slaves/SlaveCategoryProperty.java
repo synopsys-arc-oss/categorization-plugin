@@ -30,6 +30,6 @@ import hudson.slaves.NodeProperty;
  *
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
-public class CategoryProperty extends NodeProperty<Node> {
+public class SlaveCategoryProperty extends NodeProperty<Node> {
     
 }

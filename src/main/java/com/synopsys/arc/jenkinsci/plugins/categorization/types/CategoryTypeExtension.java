@@ -28,10 +28,12 @@ import hudson.ExtensionPoint;
 import hudson.model.Hudson;
 
 /**
+ * Class provides basic category extension.
  * Extension requirements:
  *    - Provide config.jelly, which allows to setup category
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
+//TODO: Make describable
 public abstract class CategoryTypeExtension 
     implements ICategoryType, ExtensionPoint
 {

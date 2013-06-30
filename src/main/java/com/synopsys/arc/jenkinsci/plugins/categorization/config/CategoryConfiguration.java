@@ -24,7 +24,7 @@
 package com.synopsys.arc.jenkinsci.plugins.categorization.config;
 
 /**
- *
+ * Describes configuration of the category.
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
 public class CategoryConfiguration {
