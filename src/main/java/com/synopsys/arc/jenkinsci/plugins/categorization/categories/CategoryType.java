@@ -21,11 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.synopsys.arc.jenkinsci.plugins.categorization.types;
+package com.synopsys.arc.jenkinsci.plugins.categorization.categories;
 
-import hudson.ExtensionList;
+import hudson.DescriptorExtensionList;
 import hudson.ExtensionPoint;
+import hudson.model.Describable;
+import hudson.model.Descriptor;
 import hudson.model.Hudson;
+import java.io.Serializable;
+import jenkins.model.Jenkins;
 
 /**
  * Class provides basic category extension.
@@ -34,14 +38,44 @@ import hudson.model.Hudson;
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
 //TODO: Make describable
-public abstract class CategoryTypeExtension 
-    implements ICategoryType, ExtensionPoint
-{
+public abstract class CategoryType 
+    implements Describable<CategoryType>, ICategoryType, ExtensionPoint, Serializable
+{ 
+    private String name;
+    private String description;
+    private boolean mandatory;
+
+    public CategoryType(String name, String description, boolean mandatory) {
+        this.name = name;
+        this.description = description;
+        this.mandatory = mandatory;
+    }
+    
+    public final String getName() {
+        return name;
+    }
+
+    public final String getDescription() {
+        return description;
+    }
+
+    public final boolean isMandatory() {
+        return mandatory;
+    }
+    
     /**
      * Get list of all registered {@link CategoryExtension}s.
      * @return List of {@link CategoryExtension}s.
      */
-    public static ExtensionList<CategoryTypeExtension> all() {
-        return Hudson.getInstance().getExtensionList(CategoryTypeExtension.class);
+    public static DescriptorExtensionList<CategoryType, CategoryTypeDescriptor> all() {
+        return Hudson.getInstance().getDescriptorList(CategoryType.class);
+    }
+    
+    @Override
+    public CategoryTypeDescriptor getDescriptor() {
+        return (CategoryTypeDescriptor) Jenkins.getInstance().getDescriptor(getClass());
+    }
+
+    public static abstract class CategoryTypeDescriptor extends Descriptor<CategoryType> {
     }
 }

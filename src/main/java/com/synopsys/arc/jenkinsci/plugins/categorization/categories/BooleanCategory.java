@@ -21,41 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.synopsys.arc.jenkinsci.plugins.categorization;
+package com.synopsys.arc.jenkinsci.plugins.categorization.categories;
 
-import com.synopsys.arc.jenkinsci.plugins.categorization.categories.CategoriesList;
-import com.synopsys.arc.jenkinsci.plugins.categorization.categories.CategoryType;
-import hudson.Plugin;
-import hudson.model.Descriptor;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import javax.servlet.ServletException;
-import net.sf.json.JSONObject;
-import org.kohsuke.stapler.StaplerRequest;
+import com.synopsys.arc.jenkinsci.plugins.categorization.Messages;
+import hudson.Extension;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
- * Categorization plugin.
- * Plugin provides setup of categories for slaves and nodes.
- * Features:
- * TODO: Scheduling according to category (promote to labels?)
+ * Boolean category.
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
-public class CategorizationPlugin extends Plugin {
-    private CategoriesList categories;
-
-    public CategoriesList getCategories() {
-        return categories;
-    }
-
-    public Collection<CategoryType> getCategoriesList() {
-        return categories.getItems();
-    }
+public class BooleanCategory extends CategoryType {
     
-    @Override
-    public void configure(StaplerRequest req, JSONObject formData) throws IOException, ServletException, Descriptor.FormException {          
-        categories = CategoriesList.Parse(req, formData, "Categories");
-        save();
-    } 
+    private boolean checkedByDefault;
+
+    @DataBoundConstructor
+    public BooleanCategory(String name, String description, boolean mandatory, boolean checkedByDefault) {
+        super(name, description, mandatory);
+        this.checkedByDefault = checkedByDefault;
+    }
+
+    public boolean isCheckedByDefault() {
+        return checkedByDefault;
+    }
+   
+    @Extension
+    public static class BooleanCategoryDescriptor extends CategoryTypeDescriptor {
+        @Override
+        public String getDisplayName() {
+            return Messages.Categories_Boolean_DisplayName();
+        } 
+
+        @Override
+        public String getConfigPage() {
+            return super.getConfigPage(); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+        
+    }    
 }

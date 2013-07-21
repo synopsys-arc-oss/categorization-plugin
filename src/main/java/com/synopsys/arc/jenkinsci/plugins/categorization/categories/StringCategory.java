@@ -21,41 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.synopsys.arc.jenkinsci.plugins.categorization;
+package com.synopsys.arc.jenkinsci.plugins.categorization.categories;
 
-import com.synopsys.arc.jenkinsci.plugins.categorization.categories.CategoriesList;
-import com.synopsys.arc.jenkinsci.plugins.categorization.categories.CategoryType;
-import hudson.Plugin;
-import hudson.model.Descriptor;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import javax.servlet.ServletException;
-import net.sf.json.JSONObject;
-import org.kohsuke.stapler.StaplerRequest;
+import com.synopsys.arc.jenkinsci.plugins.categorization.Messages;
+import hudson.Extension;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
- * Categorization plugin.
- * Plugin provides setup of categories for slaves and nodes.
- * Features:
- * TODO: Scheduling according to category (promote to labels?)
+ * String category.
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
-public class CategorizationPlugin extends Plugin {
-    private CategoriesList categories;
+public class StringCategory extends CategoryType {
+  
+    private String defaultValue;
 
-    public CategoriesList getCategories() {
-        return categories;
+    @DataBoundConstructor
+    public StringCategory(String name, String description, boolean mandatory, String defaultValue) {
+        super(name, description, mandatory);
+        this.defaultValue = defaultValue;
     }
 
-    public Collection<CategoryType> getCategoriesList() {
-        return categories.getItems();
+    public String getDefaultValue() {
+        return defaultValue;
     }
-    
-    @Override
-    public void configure(StaplerRequest req, JSONObject formData) throws IOException, ServletException, Descriptor.FormException {          
-        categories = CategoriesList.Parse(req, formData, "Categories");
-        save();
-    } 
+   
+    @Extension
+    public static class DescriptorImpl extends CategoryTypeDescriptor {        
+        @Override
+        public String getDisplayName() {
+            return Messages.Categories_String_DisplayName();
+        } 
+    }  
 }

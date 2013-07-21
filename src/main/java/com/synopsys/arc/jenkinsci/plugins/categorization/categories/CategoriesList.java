@@ -21,41 +21,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.synopsys.arc.jenkinsci.plugins.categorization;
+package com.synopsys.arc.jenkinsci.plugins.categorization.categories;
 
-import com.synopsys.arc.jenkinsci.plugins.categorization.categories.CategoriesList;
-import com.synopsys.arc.jenkinsci.plugins.categorization.categories.CategoryType;
-import hudson.Plugin;
 import hudson.model.Descriptor;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import javax.servlet.ServletException;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
- * Categorization plugin.
- * Plugin provides setup of categories for slaves and nodes.
- * Features:
- * TODO: Scheduling according to category (promote to labels?)
+ *
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
-public class CategorizationPlugin extends Plugin {
-    private CategoriesList categories;
+public class CategoriesList implements Serializable {
+    private List<CategoryType> items = new LinkedList<CategoryType>();
 
-    public CategoriesList getCategories() {
-        return categories;
+    /**
+     *
+     * @param items
+     */
+    @DataBoundConstructor
+    public CategoriesList(CategoryType[] items) {
+        
     }
 
-    public Collection<CategoryType> getCategoriesList() {
-        return categories.getItems();
+    private CategoriesList() {}
+    
+    private void add(CategoryType type) {
+        items.add(type);
+    }
+
+    public List<CategoryType> getItems() {
+        return items;
     }
     
-    @Override
-    public void configure(StaplerRequest req, JSONObject formData) throws IOException, ServletException, Descriptor.FormException {          
-        categories = CategoriesList.Parse(req, formData, "Categories");
-        save();
-    } 
+    public static CategoriesList Parse(StaplerRequest req, JSONObject form, String entryName)
+            throws IOException, Descriptor.FormException
+    {
+        if (!form.containsKey(entryName)) {
+            return null;
+        }
+        
+        CategoriesList list = new CategoriesList();       
+        JSONObject obj = form.optJSONObject(entryName);
+        if (obj != null) {
+            list.add(req.bindJSON(CategoryType.class, obj));
+        }
+        else {
+            JSONArray array = form.getJSONArray(entryName);
+            for (int i=0; i<array.size(); i++) {
+                list.add(req.bindJSON(CategoryType.class, array.getJSONObject(i)));
+            }
+        }
+        
+        return list;
+    }
 }
