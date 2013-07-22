@@ -29,8 +29,6 @@ import hudson.Plugin;
 import hudson.model.Descriptor;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 import javax.servlet.ServletException;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;
@@ -46,7 +44,7 @@ public class CategorizationPlugin extends Plugin {
     private CategoriesList categories;
 
     public CategoriesList getCategories() {
-        return categories;
+        return categories != null ? categories : CategoriesList.EMPTY_LIST;
     }
 
     public Collection<CategoryType> getCategoriesList() {

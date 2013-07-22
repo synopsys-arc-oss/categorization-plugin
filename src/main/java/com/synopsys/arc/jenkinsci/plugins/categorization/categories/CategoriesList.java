@@ -40,7 +40,8 @@ import org.kohsuke.stapler.StaplerRequest;
  */
 public class CategoriesList implements Serializable {
     private List<CategoryType> items = new LinkedList<CategoryType>();
-
+    public static final CategoriesList EMPTY_LIST = new CategoriesList(new CategoryType[0]);
+    
     /**
      *
      * @param items
