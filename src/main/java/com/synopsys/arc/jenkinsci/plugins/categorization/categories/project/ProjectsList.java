@@ -24,19 +24,19 @@
 package com.synopsys.arc.jenkinsci.plugins.categorization.categories.project;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  *
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
-public class ProjectCategories implements Serializable {
+public class ProjectsList implements Serializable {
     EntryMap entries;
 
     @DataBoundConstructor
-    public ProjectCategories(EntryMap entries) {
+    public ProjectsList(EntryMap entries) {
         this.entries = entries;
     }
 
@@ -85,9 +85,10 @@ public class ProjectCategories implements Serializable {
     
     public static class EntryMap extends HashMap<String, Entry> implements Serializable {
         @DataBoundConstructor
-        public EntryMap(Map<? extends String, ? extends Entry> m) {
-            super(m);
+        public EntryMap(Collection<Entry> entries) {
+            for (Entry entry : entries) {
+                put(entry.getName(), entry);
+            }
         }
-        
     }
 }

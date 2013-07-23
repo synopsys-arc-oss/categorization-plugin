@@ -25,6 +25,7 @@ package com.synopsys.arc.jenkinsci.plugins.categorization;
 
 import com.synopsys.arc.jenkinsci.plugins.categorization.categories.CategoriesList;
 import com.synopsys.arc.jenkinsci.plugins.categorization.categories.CategoryType;
+import com.synopsys.arc.jenkinsci.plugins.categorization.categories.project.ProjectsList;
 import hudson.Plugin;
 import hudson.model.Descriptor;
 import java.io.IOException;
@@ -42,9 +43,14 @@ import org.kohsuke.stapler.StaplerRequest;
  */
 public class CategorizationPlugin extends Plugin {
     private CategoriesList categories;
-
+    private ProjectsList projectList;
+    
     public CategoriesList getCategories() {
         return categories != null ? categories : CategoriesList.EMPTY_LIST;
+    }
+
+    public ProjectsList getProjectList() {
+        return projectList;
     }
 
     public Collection<CategoryType> getCategoriesList() {
